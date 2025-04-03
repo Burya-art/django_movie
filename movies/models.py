@@ -95,7 +95,7 @@ class MovieShots(models.Model):
 
 class RatingStar(models.Model):
     """Зірка рейтингу"""
-    value = models.PositiveSmallIntegerField("Значення", default=0)
+    value = models.SmallIntegerField("Значення", default=0)
 
     def __str__(self):
         return self.value
@@ -109,8 +109,7 @@ class Rating(models.Model):
     """Рейтинг"""
     ip = models.CharField("IP адреса", max_length=15)
     star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name="зірки")
-    movie = models.ForeignKey(Movie, on_delete=models.CharField, verbose_name="фільм")
-
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="фільм")
 
     def __str__(self):
         return f"{self.star} - {self.movie}"
@@ -118,3 +117,21 @@ class Rating(models.Model):
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
+
+
+class Reviews(models.Model):
+    """Відгуки"""
+    email = models.EmailField()
+    name = models.CharField("Ім'я", max_length=100)
+    text = models.TextField("Повідомлення", max_length=5000)
+    parent = models.ForeignKey(
+        'self', verbose_name="Батько", on_delete=models.SET_NULL,
+        blank=True, null=True)
+    movie = models.ForeignKey(Movie, verbose_name="фільм", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} - {self.movie}"
+
+    class Meta:
+        verbose_name = "Відгуки"
+        verbose_name_plural = "Відгуки"
