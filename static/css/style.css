@@ -492,7 +492,12 @@ a.btn.active {
 
 /*-- //place holder --*/
 
-/*-- //banner --*/
+/*-- img --*/
+
+.img-movie-shots {
+    max-width: 250px;
+    height: auto;
+}
 
 /*-- features --*/
 .hand-crafted {
